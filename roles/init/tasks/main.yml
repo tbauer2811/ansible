@@ -1,0 +1,83 @@
+### Role to install required software for the EBVportal
+### Created on: Dec 2019
+### Author:     Thomas Bauer - iDiv
+---
+- name: Install relevant packages
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - apache2
+      - php7.4
+      - php7.4-common
+      - php7.4-cli
+      - php7.4-mysql
+      - libapache2-mod-php7.4
+      - apt-file # Example: apt-file find libOpenCL.so
+      - apt-transport-https # let apt use packages over HTTPS
+      - ca-certificates
+      - software-properties-common
+      - curl
+      - doxygen
+      - vim
+      - wget
+      - zsh
+      - gnupg
+      - gdal-bin
+      - libhdf5-dev
+      - git
+      - screenfetch
+      - cmake
+      - pkg-config
+      - tar
+      - lsb-core
+      - clang
+      - sqlite3
+      - xxdiff
+      - libpng-dev
+      - libpng++-dev
+      - libjpeg-dev
+      - libturbojpeg0-dev
+      - libgeos-dev
+      - libgeos++-dev
+      - libbz2-dev
+      - libcurl3-dev
+      - libboost-all-dev
+      - libsqlite3-dev
+      - liburiparser-dev
+      - libgtest-dev
+      - libfcgi-dev
+      - libxerces-c-dev
+      - libarchive-dev
+      - libproj-dev
+      - libpoco-dev
+      - valgrind
+      - r-cran-rcpp
+      - libpqxx-dev
+      - libpoco-dev
+      - libgdal-dev
+      # Preparing OpenCL development platform for Ubuntu 18.04LTS...
+      # https://gist.github.com/Brainiarc7/dc80b023af5b4e0d02b33923de7ba1ed
+      - clinfo # show OpenCL platforms and devices
+      - ocl-icd-*
+      - opencl-headers
+      - intel-opencl-icd # comes with ppa Intel OpenCL Repo
+      - pocl-opencl-icd
+      # Install PostgreSQL
+      # - postgresql
+      # - postgresql-contrib
+      # - libpq-dev
+      # Install postgis to add extension on postgres databases
+      # - postgis
+      # Install Java Development Environment to use GeoServer and GeoNetwork
+      # - default-jdk
+      # - openjdk-8-jdk
+      # WAVE requirements
+      - nodejs
+      # Install Docker
+      # - docker-ce
+
+- name: Update apt
+  apt:
+    update_cache: yes

@@ -1,0 +1,33 @@
+# Intallation GeoServer
+- name: Create Directory ~/software/geoserver
+  become_user: vagrant
+  # Create a directory if it does not exist
+  file:
+    path: ~/software/geoserver
+    state: directory
+    mode: '0755'
+
+- name: Create Directory /usr/share/geoserver
+  file:
+    path: /usr/share/geoserver
+    owner: vagrant
+    state: directory
+    mode: '0755'
+
+- name: Download GeoServer Source Code Packages v2.16.1 to storage
+  become_user: vagrant
+  get_url:
+    url: http://sourceforge.net/projects/geoserver/files/GeoServer/2.16.1/geoserver-2.16.1-bin.zip
+    dest: ~/software/geoserver/geoserver-bin.zip
+
+- name: Unarchive geoserver that is already on the remote machine
+  become_user: vagrant
+  unarchive:
+    src: ~/software/geoserver/geoserver-bin.zip
+    dest: /usr/share/geoserver
+    remote_src: yes
+
+- name: export GEOSERVER_HOME variable
+  become_user: vagrant
+  shell:
+    cmd: echo "export GEOSERVER_HOME=/usr/share/geoserver/geoserver-2.16.1" >> ~/.profile

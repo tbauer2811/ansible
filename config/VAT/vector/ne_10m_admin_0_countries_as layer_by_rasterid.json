@@ -1,0 +1,11 @@
+{
+    "filename": "/data/static/single_feature_layers_prod_01.gpkg",
+    "on_error" : "keep",
+    "time": "none",
+    "coords": {
+        "crs": "EPSG:4326"
+    },
+    "columns" : {
+
+    }
+}

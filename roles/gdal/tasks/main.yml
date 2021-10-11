@@ -1,0 +1,19 @@
+- name: Add ppa UbuntuGIS unstable Repository for Ubuntu 18.04
+  apt_repository:
+    # repo: ppa:ubuntugis/ppa
+    repo: ppa:ubuntugis/ubuntugis-unstable
+    state: present
+    update_cache: yes
+
+- name: Update apt
+  apt:
+    update_cache: yes
+
+- name: Install Sys Packages
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - gdal-bin
+      - libgdal-dev

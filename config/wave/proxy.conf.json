@@ -1,0 +1,16 @@
+{
+    "/cgi-bin/*": {
+      "target": {
+        "host": "192.168.33.101",
+        "protocol": "http:",
+        "port": "80"
+      },
+      "changeOrigin": true,
+      "secure": false,
+      "logLevel": "debug"
+    },
+    "/mapcache/*": {
+        "target": "http://sng107.sng.uni-frankfurt.de/mapcache/",
+        "logLevel": "debug"
+    }
+}

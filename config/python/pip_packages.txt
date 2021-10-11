@@ -1,0 +1,8 @@
+# install the whole package suite
+# with pip_packages.txt
+# command: pip3 install -r pip_packages.txt
+netcdf4
+h5py
+mysql-connector-python
+numpy
+requests

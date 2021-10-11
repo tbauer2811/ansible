@@ -1,0 +1,104 @@
+# - name: git clone mapping-core Source Code
+#   # become_user: vagrant
+#   git:
+#     repo: 'https://github.com/umr-dbs/mapping-core.git'
+#     dest: /home/tbauer/git/mapping-core
+#     version: geos-38
+
+# - name: git clone mapping-ebv Source Code
+#   # become_user: vagrant
+#   git:
+#     repo: 'https://github.com/umr-dbs/mapping-ebv.git'
+#     dest: /home/tbauer/git/mapping-ebv
+#     version: dataset_full_path_request
+
+# - name: git clone geo-bon-ebv-analyzer Source Code
+#   git:
+#     repo: 'https://github.com/umr-dbs/geo-bon-ebv-analyzer.git'
+#     dest: /home/tbauer/git/geo-bon-ebv-analyzer
+#     version: master
+
+# - name: Ship mapping.conf from host to vm
+#   copy:
+#     src: ./config/mapping-core/mapping.conf
+#     dest: /etc
+#     owner: www-data
+#     group: developers
+
+# - name: create db directory
+#   # become_user: vagrant
+#   file:
+#     path: /db
+#     state: directory
+#     mode: '0754'
+#     owner: www-data
+#     group: developers
+
+# - name: Ship userdb.sqlite to vm
+#   copy:
+#     src: ./config/sqlite/userdb.sqlite
+#     dest: /db
+#     mode: '0754'
+#     owner: www-data
+#     group: developers
+
+# - name: Ship angular.json from host to vm
+#   copy:
+#     src: ./config/wave/angular.json
+#     dest: /home/tbauer/git/geo-bon-ebv-analyzer
+#     owner: www-data
+#     group: developers
+
+# - name: Ship proxy.conf.json from host to vm
+#   copy:
+#     src: ./config/wave/proxy.conf.json
+#     dest: /home/tbauer/git/geo-bon-ebv-analyzer
+#     owner: www-data
+#     group: developers
+
+# - name: Ship .npmrc from host to vm
+#   copy:
+#     src: ./config/wave/.npmrc
+#     dest: /home/tbauer
+#     owner: tbauer
+#     group: developers
+
+- name: Ship datasets static from host to vm
+  copy:
+    src: ./config/VAT/static
+    dest: /data
+    mode: '0754'
+    owner: www-data
+    group: developers
+
+- name: Ship datasets raster from host to vm
+  copy:
+    src: ./config/VAT/raster
+    dest: /data
+    mode: '0754'
+    owner: www-data
+    group: developers
+
+- name: Ship datasets vector from host to vm
+  copy:
+    src: ./config/VAT/vector
+    dest: /data
+    mode: '0754'
+    owner: www-data
+    group: developers
+
+# - name: Create PostgreSQL featurecollectiondb_test
+#   become_user: postgres
+#   postgresql_db:
+#     name: featurecollectiondb_test
+#     encoding: UTF-8
+#     # lc_collate: de_DE.UTF-8
+#     # lc_ctype: de_DE.UTF-8
+#     # template: template0
+
+# # Extension needs psycopg2 package installed on the host machine!
+# - name: Add postgis extension to the database featurecollectiondb_test
+#   become_user: postgres
+#   postgresql_ext:
+#     name: postgis
+#     db: featurecollectiondb_test

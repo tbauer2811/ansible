@@ -1,0 +1,23 @@
+- name: Install neccessary Python packages
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - python3
+      # Install psycopg2 to handle the installation process of postgres db
+      - python3-psycopg2
+      # Python module package manager
+      - python3-pip
+
+- name: Install Python modules with pip
+  pip:
+    name: "{{ packages }}"
+    umask: "0022"
+  vars:
+    packages:
+      - netcdf4
+      - h5py
+      - mysql-connector-python
+      - numpy
+      - requests

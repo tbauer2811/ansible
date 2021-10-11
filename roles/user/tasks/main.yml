@@ -1,0 +1,52 @@
+### Do user specific tasks
+### Created on: Dec 2019
+### Author:     Thomas Bauer - iDiv
+---
+# Create USER tomcat and GROUP tomcat
+# - name: Ensure group tomcat exists
+#   group:
+#     name: tomcat
+#     state: present
+
+# - name: Add user tomcat
+#   user:
+#     name: tomcat
+#     shell: /bin/false
+#     group: tomcat
+#     home: /opt/tomcat
+
+# Apache2 using www-data user
+- name: Ensure group www-data exists
+  group:
+    name: www-data
+    state: present
+
+# USER must be in video group to access GPU device.
+- name: Add additional groups to user
+  user:
+    name: tbauer
+    append: true
+    groups: video, www-data
+    # groups: video, tomcat, www-data
+
+# User specific configuration files
+- name: Copy configuration files for npm
+  copy:
+    src: ./config/npm/.npmrc
+    dest: /home/tbauer
+    owner: tbauer
+    group: root
+
+# - name: Install oh-my-zsh using the shell module
+#   shell: sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+
+- name: Copy configuration files for zsh
+  copy:
+    src: ./config/zsh/.zshrc
+    dest: /home/tbauer
+    owner: tbauer
+    group: root
+#
+#
+#
+#

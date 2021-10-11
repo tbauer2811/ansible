@@ -1,0 +1,28 @@
+# UNSTABLE ! Have to be tested!
+# https://tecadmin.net/install-php-7-on-ubuntu/
+
+- name: Add ppa PPA for PHP 7.2 for Ubuntu 18.04
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+    update_cache: yes
+
+- name: Install Packages
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - php7.2
+      # Install apache2 php mysql modules
+      # - libapache2-mod-php
+      - php-mysql
+
+      ### support for ssh2 tunnel php module #######################################
+      # - libssh2-1-dev
+      # - php-pear
+      # - php-dev
+      # $ sudo pecl install ssh2-alpha
+      # $ sudo bash -c "echo extension=ssh2.so > /etc/php/7.2/apache2/conf.d/ssh2.ini"
+      # $ sudo service apache2 restart
+      # ############################################################################

@@ -1,0 +1,25 @@
+# - name: create userdb.sqlite for mapping
+#   # become_user: vagrant
+#   file:
+#     path: /mapping/userdb.sqlite
+#     state: directory
+#     mode: '0755'
+#     group: www-data
+
+# - name: Ship sqlite init file for mapping
+#   copy:
+#     src: ./config/sqlite/test.sql
+#     dest: /mapping
+#     # owner: vagrant
+#     group: www-data
+
+# - name: sqlite data restoration to create the guest user for mapping
+#   shell:
+#     cmd: sqlite3 /mapping/userdb.sqlite | sqlite3 /mapping/userdb.sqlite < /mapping/test.sql
+
+- name: Ship userdb.sqlite from host to vm
+  copy:
+    src: ./config/sqlite/userdb.sqlite
+    dest: /db
+    owner: www-data
+    group: www-data

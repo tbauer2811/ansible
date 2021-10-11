@@ -1,0 +1,114 @@
+# Install Tomcat7 to start GeoNetwork Container
+# check out: https://www.digitalocean.com/community/tutorials/install-tomcat-9-ubuntu-1804
+- name: Download Tomcat v9.0.30 tar file to storage
+  become_user: vagrant
+  get_url:
+    url: ftp://ftp.fu-berlin.de/unix/www/apache/tomcat/tomcat-9/v9.0.31/bin/apache-tomcat-9.0.31.tar.gz
+    dest: /tmp/apache-tomcat.tar.gz
+
+- name: Create installation Directory /opt/tomcat
+  file:
+    path: /opt/tomcat
+    state: directory
+    mode: '0755'
+
+- name: Unarchive tomcat that is already on the remote machine
+  unarchive:
+    src: /tmp/apache-tomcat.tar.gz
+    dest: /opt/tomcat
+    remote_src: yes
+    extra_opts:
+      - --transform
+      - s/apache-tomcat-9.0.31/latest/
+
+- name: Give tomcat user and group ownership over the installation directory
+  file:
+    path: /opt/tomcat
+    state: directory
+    recurse: yes
+    group: tomcat
+    owner: tomcat
+
+- name: Give tomcat group recursive read permissions to the conf directory
+  file:
+    path: /opt/tomcat/latest/conf
+    state: directory
+    recurse: yes
+    group: tomcat
+    mode: g+rwx
+
+# - name: Give tomcat group execute permissions to the conf directory itself
+#   file:
+#     path: /opt/tomcat/latest/conf
+#     state: directory
+#     group: tomcat
+#     mode: g+x
+
+# - name: Give tomcat group execute permissions /opt/tomcat/bin/*.sh
+#   file:
+#     path: /opt/tomcat/latest/bin
+#     state: directory
+#     recurse: yes
+#     group: tomcat
+#     mode: g+x
+
+# - name: Give tomcat ownership over bin
+#   file:
+#     path: /opt/tomcat/latest/bin
+#     state: directory
+#     recurse: yes
+#     owner: tomcat
+# - name: Give tomcat ownership over webapps
+#   file:
+#     path: /opt/tomcat/latest/webapps
+#     state: directory
+#     recurse: yes
+#     owner: tomcat
+# - name: Give tomcat ownership over work
+#   file:
+#     path: /opt/tomcat/latest/work
+#     state: directory
+#     recurse: yes
+#     owner: tomcat
+# - name: Give tomcat ownership over temp
+#   file:
+#     path: /opt/tomcat/latest/temp
+#     state: directory
+#     recurse: yes
+#     owner: tomcat
+# - name: Give tomcat ownership over logs
+#   file:
+#     path: /opt/tomcat/latest/logs
+#     state: directory
+#     recurse: yes
+#     owner: tomcat
+
+- name: Ship tomcat.service file from host to vm
+  copy:
+    src: ./tomcat-config/tomcat.service
+    dest: /etc/systemd/system/tomcat.service
+    owner: root
+    group: root
+    mode: u+rwx,g-wx,o-wx
+    backup: yes
+
+- name: Ship tomcat-users.xml file from host to vm
+  copy:
+    src: ./tomcat-config/tomcat-users.xml
+    dest: /opt/tomcat/latest/conf
+    owner: tomcat
+    group: tomcat
+
+- name: Ship context.xml file to host-manager webapp from host to vm
+  copy:
+    src: ./tomcat-config/context.xml
+    dest: /opt/tomcat/latest/webapps/host-manager/META-INF
+    owner: tomcat
+    group: tomcat
+
+- name: Ship context.xml file to manager webapp from host to vm
+  copy:
+    src: ./tomcat-config/context.xml
+    dest: /opt/tomcat/latest/webapps/manager/META-INF
+    owner: tomcat
+    group: tomcat

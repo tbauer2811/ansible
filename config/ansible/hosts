@@ -1,0 +1,8 @@
+# Ansible hosts file
+# file to be stored in /etc/ansible/ on ansible control node (local machine)
+[servers]
+vat-dev02 ansible_host=172.18.116.78
+vat-prod01 ansible_host=172.18.116.161
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

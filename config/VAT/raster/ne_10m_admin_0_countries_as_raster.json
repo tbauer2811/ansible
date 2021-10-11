@@ -1,0 +1,32 @@
+{
+        "channels" : [
+                {
+                        "datatype" : "Byte",
+                        "unit" : {
+                                "measurement": "mask",
+                                "unit": "unknown",
+                                "interpolation": "continuous",
+                                "min": 0,
+                                "max": 1
+                        },
+                        "name": "Germany (DE)",
+                        "channel" : 51
+                }
+        ],
+        "file_name": "ne_10m_admin_0_countries_as_raster_channels.tif",
+        "path":"/data/static/",
+        "dataset_name" : "Sne_10m_admin_0_countries_as_raster",
+        "descriptionText" : "TODO",
+        "tags": [],
+        "coords" : {
+                "crs" : "EPSG:4326",
+                "origin" : [ -180, 90 ],
+                "scale" : [ 0.01,-0.01],
+                "size" : [ 3600, 1800 ]
+        },
+        "provenance" : {
+                "citation" : "TODO",
+                "license" : "TODO",
+                "uri" : "TODO"
+        }
+}

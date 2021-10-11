@@ -1,0 +1,80 @@
+# Intallation GeoNetwork
+#
+- name: Create Directory ~/software/geonetwork
+  become_user: vagrant
+  # Create a directory if it does not exist
+  file:
+    path: ~/software/geonetwork
+    state: directory
+    mode: '0755'
+
+# - name: Download GeoNetwork Source Code Packages v3.8.2 to storage
+#   become_user: vagrant
+#   get_url:
+#     url: https://sourceforge.net/projects/geonetwork/files/GeoNetwork_opensource/v3.8.2/geonetwork.war
+#     dest: ~/software/geonetwork
+
+# - name: Copy geonetwork.war file to tomcat webapp folder
+#   copy:
+#     src: /home/vagrant/software/geonetwork/geonetwork.war
+#     dest: /opt/tomcat/latest/webapps
+#     owner: tomcat
+#     group: tomcat
+#     remote_src: yes
+
+- name: Ship srv.xml file from host to vm
+  copy:
+    src: ./geonetwork-config/srv.xml
+    dest: /opt/tomcat/latest/webapps/geonetwork/WEB-INF/config-node
+    owner: tomcat
+    group: tomcat
+
+- name: Ship jdbc.properties file from host to vm
+  copy:
+    src: ./geonetwork-config/jdbc.properties
+    dest: /opt/tomcat/latest/webapps/geonetwork/WEB-INF/config-db
+    owner: tomcat
+    group: tomcat
+
+- name: Ship log4j*.xml files from host to vm
+  copy:
+    src: ./geonetwork-config/{{ item }}
+    dest: /opt/tomcat/latest/webapps/geonetwork/WEB-INF/classes
+    owner: tomcat
+    group: tomcat
+  with_items:
+    - log4j-dev.xml
+    - log4j-index.xml
+    - log4j-search.xml
+    - log4j.xml
+
+# check out the proper conf in Mastering_Advanced_GeoNetwork.pdf (found online)
+- name: Ship postgres conf (allow local/tcp connections) files from host to vm
+  copy:
+    src: ./postgres-config/{{ item }}
+    dest: /etc/postgresql/10/main
+    owner: postgres
+    group: postgres
+  with_items:
+    - pg_hba.conf
+    - postgresql.conf
+
+- name: Create PostgreSQL user geonetwork
+  become_user: postgres
+  postgresql_user:
+    name: geonetwork
+    password: expert
+
+- name: Create PostgreSQL Database geonetwork
+  become_user: postgres
+  postgresql_db:
+    name: geonetwork
+    owner: geonetwork
+    encoding: UTF-8
+
+# Extension needs psycopg2 package installed on the host machine!
+- name: Add postgis extension to the database geonetwork
+  become_user: postgres
+  postgresql_ext:
+    name: postgis
+    db: geonetwork

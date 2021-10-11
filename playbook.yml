@@ -1,0 +1,31 @@
+---
+- hosts: vat-dev02 # all, vat-dev02, vat-prod01
+  become: true # run all the tasks with sudo
+  vars:
+    # Important to run with Python 3 on the managed machines (psycopg2 needs it)
+    ansible_python_interpreter: /usr/bin/python3
+    doc_root: /vagrant
+    # server_name: "{{ ansible_eth1.ipv4.address }}" #Fact: pre-defined Ansible variable
+    server_name: "server_name_defined" #Fact: pre-defined Ansible variable
+    # sys_packages: [ 'curl', 'vim', 'git']
+    # php_packages: [ 'php7.0-curl', 'php7.0-cli' ]
+    NODEJS_VERSION: "12"
+  roles:
+    # - repositories
+    # - init
+    # - user
+    # - ebvVAT
+    # - sqlite
+    # - tomcat
+    # - geonetwork
+    # - geoserver
+    # - mapping
+    # - wave
+    # - apache2
+    # - ebvcatalog
+    # - gdal
+    # - php
+    # - VAT
+    # - python
+
+    # - nginxphp

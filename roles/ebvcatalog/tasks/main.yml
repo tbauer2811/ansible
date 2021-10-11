@@ -1,0 +1,31 @@
+# - name: Ship ready to use project from host to vm
+#   copy:
+#     src: /home/farmer/Workspace/Vagrant/Ubuntu18/guest/html
+#     dest: /var/www
+#     owner: www-data
+#     group: www-data
+#####################################
+# - name: create ebvcatalog directory
+#   # become_user: vagrant
+#   file:
+#     path: /ebvcatalog
+#     state: directory
+#     mode: '0755'
+#     group: www-data
+
+- name: Pull changes from ebv-catalog gitlab repository
+  git:
+    repo: 'git@gitlab.idiv.de:ebv-data/ebv-catalog.git'
+    dest: /home/tbauer/ebv-catalog
+    version: master
+    accept_hostkey: yes
+
+#   git:
+#     repo: 'https://github.com/umr-dbs/mapping-core.git'
+#     dest: /home/tbauer/git/mapping-core
+#     version: geos-38
+- name: Set group www-data for directories and files
+  file:
+    path: /home/tbauer/ebv-catalog
+    group: www-data
+    recurse: yes
